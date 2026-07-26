@@ -35,7 +35,7 @@ return new class extends Migration
 
             $table->enum('status', [
                 'Belum Lunas',
-                'Lunas'
+                'Lunas',
             ])->default('Belum Lunas');
 
             $table->date('tanggal_input')->nullable();
@@ -49,12 +49,17 @@ return new class extends Migration
 
             $table->timestamps();
 
-            $table->unique([
-                'student_id',
-                'fee_category_id',
-                'academic_year_id',
-                'bulan'
-            ]);
+            // Unique: 1 siswa hanya boleh memiliki 1 tagihan
+            // untuk kategori, tahun ajaran, dan bulan yang sama.
+            $table->unique(
+                [
+                    'student_id',
+                    'fee_category_id',
+                    'academic_year_id',
+                    'bulan',
+                ],
+                'sfs_unique'
+            );
         });
     }
 
