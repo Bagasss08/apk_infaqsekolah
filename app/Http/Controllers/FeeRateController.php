@@ -18,8 +18,8 @@ class FeeRateController extends Controller
             'academicYear',
             'feeCategory'
         ])
-        ->latest()
-        ->paginate(10);
+            ->latest()
+            ->paginate(10);
 
         return view('fee-rates.index', compact('feeRates'));
     }
@@ -46,11 +46,28 @@ class FeeRateController extends Controller
      */
     public function store(Request $request)
     {
+        $request->merge([
+            'nominal' => str_replace('.', '', $request->nominal)
+        ]);
+
         $validated = $request->validate([
             'academic_year_id' => 'required|exists:academic_years,id',
-            'fee_category_id'  => 'required|exists:fee_categories,id',
-            'tingkat'          => 'required|integer|min:1|max:3',
-            'nominal'          => 'required|numeric|min:0',
+            'fee_category_id' => 'required|exists:fee_categories,id',
+            'tingkat' => [
+                'required',
+                'integer',
+                'min:1',
+                'max:3',
+                \Illuminate\Validation\Rule::unique('fee_rates')
+                    ->where(function ($query) use ($request) {
+                        return $query
+                            ->where('academic_year_id', $request->academic_year_id)
+                            ->where('fee_category_id', $request->fee_category_id);
+                    }),
+            ],
+            'nominal' => 'required|integer|min:0',
+        ], [
+            'tingkat.unique' => 'Tarif untuk tahun ajaran, kategori, dan tingkat tersebut sudah ada.',
         ]);
 
         FeeRate::create($validated);
@@ -85,11 +102,15 @@ class FeeRateController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $request->merge([
+            'nominal' => str_replace('.', '', $request->nominal)
+        ]);
+
         $validated = $request->validate([
             'academic_year_id' => 'required|exists:academic_years,id',
-            'fee_category_id'  => 'required|exists:fee_categories,id',
-            'tingkat'          => 'required|integer|min:1|max:3',
-            'nominal'          => 'required|numeric|min:0',
+            'fee_category_id' => 'required|exists:fee_categories,id',
+            'tingkat' => 'required|integer|min:1|max:3',
+            'nominal' => 'required|numeric|min:0',
         ]);
 
         $feeRate = FeeRate::findOrFail($id);

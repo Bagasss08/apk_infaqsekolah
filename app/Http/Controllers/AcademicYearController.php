@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\AcademicYear;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class AcademicYearController extends Controller
 {
@@ -32,7 +33,7 @@ class AcademicYearController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name'      => 'required|string|max:100',
+            'name'      => 'required|string|max:100|unique:academic_years,name',
             'is_active' => 'required|boolean',
         ]);
 
@@ -69,10 +70,18 @@ class AcademicYearController extends Controller
         $academicYear = AcademicYear::findOrFail($id);
 
         $validated = $request->validate([
-            'name'      => 'required|string|max:100',
+            'name' => [
+                'required',
+                'string',
+                'max:100',
+                Rule::unique('academic_years', 'name')
+                    ->ignore($academicYear->id),
+            ],
             'is_active' => 'required|boolean',
         ]);
 
+        // Jika memilih aktif,
+        // maka tahun ajaran lain dibuat tidak aktif
         if ($validated['is_active']) {
             AcademicYear::where('id', '!=', $academicYear->id)
                 ->update([

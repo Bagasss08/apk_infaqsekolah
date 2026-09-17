@@ -17,9 +17,11 @@ return new class extends Migration
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
 
-            $table->string('name'); // 1A
+            $table->string('name'); // contoh: 1A
 
-            $table->unsignedTinyInteger('tingkat'); //1,2,3
+            $table->unsignedTinyInteger('tingkat'); // 1, 2, 3
+
+            $table->string('wali_kelas'); // nama wali kelas
 
             $table->timestamps();
         });

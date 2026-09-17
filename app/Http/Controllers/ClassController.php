@@ -40,6 +40,7 @@ class ClassController extends Controller
             'academic_year_id' => 'required|exists:academic_years,id',
             'tingkat'          => 'required|integer|min:1|max:3',
             'name'             => 'required|string|max:100',
+            'wali_kelas'       => 'nullable|string|max:100',
         ]);
 
         SchoolClass::create($validated);
@@ -75,6 +76,7 @@ class ClassController extends Controller
             'academic_year_id' => 'required|exists:academic_years,id',
             'tingkat'          => 'required|integer|min:1|max:3',
             'name'             => 'required|string|max:100',
+            'wali_kelas'       => 'nullable|string|max:100',
         ]);
 
         $class->update($validated);

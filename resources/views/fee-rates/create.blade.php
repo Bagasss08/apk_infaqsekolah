@@ -98,7 +98,15 @@
 
             <br>
 
-            <input type="number" name="nominal" value="{{ old('nominal') }}" placeholder="Contoh : 500000" required>
+            <input
+                type="text"
+                name="nominal"
+                id="nominal"
+                value="{{ old('nominal') }}"
+                inputmode="numeric"
+                placeholder="Contoh : 500.000"
+                required
+            >
 
         </div>
 
@@ -113,5 +121,17 @@
         </a>
 
     </form>
+
+    <script>
+    document.getElementById('nominal').addEventListener('input', function () {
+
+        // Hanya mengambil angka
+        let angka = this.value.replace(/\D/g, '');
+
+        // Memberikan titik setiap 3 angka
+        this.value = angka.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+
+    });
+</script>
 
 @endsection

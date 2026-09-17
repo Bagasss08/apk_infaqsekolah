@@ -4,104 +4,91 @@
 
 @section('content')
 
-<div class="mb-3">
-    <a href="{{ route('classes.create') }}" class="btn btn-primary">
-        Tambah Kelas
-    </a>
-</div>
-
-@if(session('success'))
-    <div class="alert alert-success">
-        {{ session('success') }}
+    <div class="mb-3">
+        <a href="{{ route('classes.create') }}" class="btn btn-primary">
+            Tambah Kelas
+        </a>
     </div>
-@endif
 
-<table class="table table-bordered">
+    @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
 
-    <thead>
+    <table class="table table-bordered">
 
-        <tr>
-            <th width="60">No</th>
-            <th>Tahun Ajaran</th>
-            <th>Tingkat</th>
-            <th>Nama Kelas</th>
-            <th>Wali Kelas</th>
-            <th width="180">Aksi</th>
-        </tr>
+        <thead>
+            <tr>
+                <th width="60">No</th>
+                <th>Tahun Ajaran</th>
+                <th>Tingkat</th>
+                <th>Nama Kelas</th>
+                <th>Wali Kelas</th>
+                <th width="180">Aksi</th>
+            </tr>
+        </thead>
 
-    </thead>
+        <tbody>
 
-    <tbody>
+            @forelse($classes as $class)
 
-        @forelse($classes as $class)
+                <tr>
 
-        <tr>
+                    <td>
+                        {{ $classes->firstItem() + $loop->index }}
+                    </td>
 
-            <td>{{ $loop->iteration }}</td>
+                    <td>
+                        {{ $class->academicYear->name ?? '-' }}
+                    </td>
 
-            <td>
-                {{ $class->academicYear->tahun ?? '-' }}
-            </td>
+                    <td>
+                        {{ $class->tingkat }}
+                    </td>
 
-            <td>
-                {{ $class->tingkat }}
-            </td>
+                    <td>
+                        {{ $class->name }}
+                    </td>
 
-            <td>
-                {{ $class->name }}
-            </td>
+                    <td>
+                        {{ $class->wali_kelas ?? '-' }}
+                    </td>
 
-            <td>
-                {{ $class->wali_kelas }}
-            </td>
+                    <td>
 
-            <td>
+                        <a href="{{ route('classes.edit', $class->id) }}" class="btn btn-warning btn-sm">
+                            Edit
+                        </a>
 
-                <a href="{{ route('classes.edit',$class->id) }}"
-                    class="btn btn-warning btn-sm">
-                    Edit
-                </a>
+                        <form action="{{ route('classes.destroy', $class->id) }}" method="POST" style="display:inline">
 
-                <form
-                    action="{{ route('classes.destroy',$class->id) }}"
-                    method="POST"
-                    style="display:inline">
+                            @csrf
+                            @method('DELETE')
 
-                    @csrf
-                    @method('DELETE')
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Hapus data?')">
+                                Hapus
+                            </button>
 
-                    <button
-                        class="btn btn-danger btn-sm"
-                        onclick="return confirm('Hapus data?')">
+                        </form>
 
-                        Hapus
+                    </td>
 
-                    </button>
+                </tr>
 
-                </form>
+            @empty
 
-            </td>
+                <tr>
+                    <td colspan="6" class="text-center">
+                        Belum ada data kelas.
+                    </td>
+                </tr>
 
-        </tr>
+            @endforelse
+        </tbody>
 
-        @empty
+    </table>
 
-        <tr>
-
-            <td colspan="6" class="text-center">
-
-                Belum ada data kelas.
-
-            </td>
-
-        </tr>
-
-        @endforelse
-
-    </tbody>
-
-</table>
-
-{{ $classes->links() }}
+    {{ $classes->links() }}
 
 @endsection

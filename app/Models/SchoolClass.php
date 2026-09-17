@@ -15,6 +15,7 @@ class SchoolClass extends Model
         'academic_year_id',
         'name',
         'tingkat',
+        'wali_kelas',
     ];
 
     public function academicYear()
