@@ -10,7 +10,8 @@ use App\Http\Controllers\FeeCategoryController;
 use App\Http\Controllers\FeeRateController;
 use App\Http\Controllers\BillingController;
 use App\Http\Controllers\ReportController;
-use App\Http\Controllers\ImportController;
+// use App\Http\Controllers\ImportController;
+use App\Http\Controllers\StudentImportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -83,20 +84,10 @@ Route::get('/reports/yearly', [ReportController::class, 'yearly'])
 
 Route::prefix('imports')->group(function () {
 
-    Route::get('/students', [ImportController::class, 'index'])
+    Route::get('/students', [StudentImportController::class, 'create'])
         ->name('imports.students');
 
-    Route::post('/students', [ImportController::class, 'store'])
+    Route::post('/students', [StudentImportController::class, 'store'])
         ->name('imports.students.store');
-
-    // Tambahkan di sini
-    Route::get('/students/template', [ImportController::class, 'template'])
-        ->name('students.template');
-
-    Route::get('/history', [ImportController::class, 'history'])
-        ->name('imports.history');
-
-    Route::get('/history', [ImportController::class, 'history'])
-        ->name('imports.history');
 
 });

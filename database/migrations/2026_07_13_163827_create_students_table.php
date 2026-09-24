@@ -19,8 +19,6 @@ return new class extends Migration
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
 
-            $table->text('keterangan')->nullable();
-
             $table->enum('status', [
                 'Aktif',
                 'Lulus',

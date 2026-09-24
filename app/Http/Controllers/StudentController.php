@@ -68,7 +68,6 @@ class StudentController extends Controller
             'nama' => 'required|max:255',
             'class_id' => 'required|exists:classes,id',
             'status' => 'required|in:Aktif,Lulus,Pindah',
-            'keterangan' => 'nullable|max:255',
         ]);
 
         Student::create($validated);

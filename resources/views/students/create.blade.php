@@ -101,21 +101,6 @@
 
         <tr>
 
-            <td>Keterangan</td>
-
-            <td>
-
-                <textarea
-                    name="keterangan"
-                    rows="4"
-                >{{ old('keterangan') }}</textarea>
-
-            </td>
-
-        </tr>
-
-        <tr>
-
             <td></td>
 
             <td>

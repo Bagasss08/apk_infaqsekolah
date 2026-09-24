@@ -11,8 +11,8 @@ class Student extends Model
 
     protected $fillable = [
         'nama',
+        'jenis_kelamin',
         'class_id',
-        'keterangan',
         'status',
     ];
 

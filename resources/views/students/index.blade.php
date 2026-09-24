@@ -92,7 +92,6 @@
         <th>Kelas</th>
         <th>Tahun Ajaran</th>
         <th>Status</th>
-        <th>Keterangan</th>
         <th>Aksi</th>
 
     </tr>
@@ -116,8 +115,6 @@
             <td>{{ $student->class->academicYear->name }}</td>
 
             <td>{{ $student->status }}</td>
-
-            <td>{{ $student->keterangan }}</td>
 
             <td>
 
